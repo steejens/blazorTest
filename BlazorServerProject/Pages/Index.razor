@@ -1,0 +1,48 @@
+﻿@page "/"
+@using BlazorServerProject.Pages.ContactCompanents
+
+
+
+<h1>Contacts</h1>
+
+<input type="checkbox" @onchange="@(() => { DisplayEmail = !DisplayEmail;})"/><label>Display Email</label>
+
+@foreach (var contact in contacts)
+{
+    <ContactDetailsComponent  Contact="@contact" DisplayEmail="@DisplayEmail"/>
+    <hr/>
+}
+<MyTextInput  @attributes="@(new Dictionary<string, object>
+                                {
+                                    {"disabled","disabled"},
+                                    {"placeholder","contact name"},
+                                    {"type","text"}
+                                })"></MyTextInput>
+
+@code
+{
+    private List<Contact> contacts;
+    private bool DisplayEmail = false;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        contacts = new List<Contact>
+        {
+            new Contact()
+            {
+                FirstName = "Azar",
+                LastName = "Imanguliyev",
+                Email = "azar@test.com",
+                Info = "He is very good boy"
+            },
+            new Contact()
+            {
+                FirstName = "Tehmin",
+                LastName = "Salmanov",
+                Email = "tehmin@test.com",
+                Info = "I think he is not bad guy"
+            }
+        };
+    }
+
+}
