@@ -1,0 +1,38 @@
+﻿
+
+@if (Contacts is null)
+{
+    @LoadingContacts
+}
+else if(Contacts.Count == 0)
+{
+    @EmptyContacts
+}
+else
+{
+    <input type="checkbox" @onchange="@(() => { DisplayEmail = !DisplayEmail;})"/><label>Display Email</label>
+    <br/>
+    @foreach (var contact in Contacts)
+    {
+        <ContactDetailsComponent  Contact="@contact" DisplayEmail="@DisplayEmail" DeleteCurrentContact="DeleteContact"/>
+        <hr/>
+    }
+}
+
+@code {
+
+    private bool DisplayEmail = false;
+    private void DeleteContact(Contact contact)
+    {
+        Contacts.Remove(contact);
+    }
+
+    [Parameter]
+    public List<Contact> Contacts { get; set; }
+    [Parameter]
+    public Contact Contact { get; set; }
+    [Parameter]
+    public RenderFragment LoadingContacts { get; set; }
+    [Parameter]
+    public RenderFragment EmptyContacts { get; set; }
+}

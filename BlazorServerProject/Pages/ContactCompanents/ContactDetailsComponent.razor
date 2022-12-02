@@ -1,5 +1,4 @@
-﻿<h1>Contacts</h1>
-<p>
+﻿<p>
     <b>Name:</b><span>@Contact.FirstName @Contact.LastName</span><br/>
     @if (DisplayEmail)
     {
@@ -12,12 +11,18 @@
     }
     <br/>
     <button onclick="@(() => { displayInfo = !displayInfo;})">Show/Hide Info</button>
+    <button @onclick="@(() => DeleteCurrentContact.InvokeAsync(Contact))">Delete</button>
 </p>
+
+
 @code {
   
     [Parameter]
     public Contact Contact { get; set; }
     [Parameter]
     public bool DisplayEmail { get; set; }
+
+    [Parameter] 
+    public EventCallback<Contact> DeleteCurrentContact { get; set; }
     public bool displayInfo = false;
 }

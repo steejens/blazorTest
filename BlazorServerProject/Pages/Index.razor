@@ -4,14 +4,15 @@
 
 
 <h1>Contacts</h1>
-
-<input type="checkbox" @onchange="@(() => { DisplayEmail = !DisplayEmail;})"/><label>Display Email</label>
-
-@foreach (var contact in contacts)
-{
-    <ContactDetailsComponent  Contact="@contact" DisplayEmail="@DisplayEmail"/>
-    <hr/>
-}
+<ContactListComponent Contacts="contacts">
+    <LoadingContacts>
+        <span style="background: greenyellow">Contacts are loading ...</span>
+    </LoadingContacts>
+    <EmptyContacts>
+        <span style="background: red">No contacts to display</span>
+    </EmptyContacts>
+</ContactListComponent>
+<br/>
 <MyTextInput  @attributes="@(new Dictionary<string, object>
                                 {
                                     {"disabled","disabled"},
@@ -21,11 +22,14 @@
 
 @code
 {
+
+
     private List<Contact> contacts;
-    private bool DisplayEmail = false;
-    protected override void OnInitialized()
+
+    protected async override Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await Task.Delay(2000);
+        //contacts = new List<Contact>();
         contacts = new List<Contact>
         {
             new Contact()
@@ -43,6 +47,6 @@
                 Info = "I think he is not bad guy"
             }
         };
+        base.OnInitializedAsync();
     }
-
 }
